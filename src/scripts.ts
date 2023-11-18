@@ -1,7 +1,6 @@
-
+const winCounterContainer = document.querySelector('.winCounter-container');
 const boxContainer = document.querySelector('.box-container');
 const buttonResetContainer = document.querySelector('.button-reset');
-// const resetButton = document.querySelector('.reset');
 const colors = ['aqua', 'crimson', 'blue'];
 let colorsPickList = [...colors, ...colors]; //combine array into a signle one
 const boxCount = colorsPickList.length;
@@ -10,23 +9,25 @@ const boxCount = colorsPickList.length;
 let revealedCount = 0; //user score (how many boxex opened)
 let activeBox: HTMLElement = null; //cliked box
 let awaitingEndOfMove = false; //if true that user awaits the two clicked boxes to be reversed
+let winCounter = 0;
 startGame();
 
+//start game button add
 function startGame() {
     const startElement = document.createElement('div');
-    const startContainer = document.querySelector('.start-container');
-    startElement.classList.add('start-button');
-    startElement.textContent = 'Start Game';
+    const startContainer = document.querySelector('.start-container'); //button container to append
+    startElement.classList.add('start-button'); //button class
+    startElement.textContent = 'Start Game'; //button text
 
     startElement.addEventListener('click', () => {
-        gameInitializer();
-        startContainer.remove();
+        gameInitializer(); //game creation
+        startContainer.remove(); //remove start game button
     });
 
     if (startContainer) {
-        startContainer.appendChild(startElement);
+        startContainer.appendChild(startElement); //put button into container
     } else {
-        console.error('Container not founnd');
+        console.error('Container not founnd'); //error if no container
     }
 }
 
@@ -75,6 +76,7 @@ function buildBox(color: string) {
 
             if (revealedCount === boxCount) {
                 window.alert("You win! Press 'reset' to play again.");
+                increaseWinCounter();
             }
 
             return;
@@ -123,18 +125,35 @@ function gameInitializer() {
         colorsPickList.splice(randomIndex, 1);
         boxContainer.appendChild(box);
     }
-    
-    const resetButton = document.createElement('div');
-        resetButton.classList.add('reset');
-        resetButton.textContent = 'Reset';
 
-        if (buttonResetContainer) {
-            buttonResetContainer.appendChild(resetButton);
-        } else {
-            console.error('Button container not found');
-        }
+    // create 'reset' button
+    const resetButton = document.createElement('div');
+    resetButton.classList.add('reset');
+    resetButton.textContent = 'Reset';
+
+    if (buttonResetContainer) {
+        buttonResetContainer.appendChild(resetButton);
+    } else {
+        console.error('Button container not found');
+    }
 
     resetButton.addEventListener('click', resetGame);
 }
-    
+
+function initializeWinCounter() {
+    // eslint-disable-next-line prefer-template
+    winCounterContainer.textContent = 'Victory count: ' + winCounter;
+}
+
+//after win update counter and save to local storage
+function updateWinCounter() {
+    localStorage.setItem('winCounter', winCounter.toString());
+}
+
+//increase win counter
+function increaseWinCounter() {
+    winCounter++;
+    initializeWinCounter();
+    updateWinCounter();
+}
 
