@@ -1,13 +1,15 @@
+
 const boxContainer = document.querySelector('.box-container');
+const resetButton = document.querySelector('.reset');
 const colors = ['aqua', 'crimson', 'blue'];
-const colorsPickList = [...colors, ...colors]; //combine array into a signle one
+let colorsPickList = [...colors, ...colors]; //combine array into a signle one
 const boxCount = colorsPickList.length;
 
 //Game state
 let revealedCount = 0; //user score (how many boxex opened)
 let activeBox: HTMLElement = null; //cliked box
 let awaitingEndOfMove = false; //if true that user awaits the two clicked boxes to be reversed
-
+gameInitializer();
 
 //build new box and return it to for loop below
 function buildBox(color: string) {
@@ -74,17 +76,35 @@ function buildBox(color: string) {
     return element;
 }
 
-// Build up boxes
-for (let i = 0; i < boxCount; i++) {
-    //pick random color from colorsPickList
-    const randomIndex = Math.floor(Math.random() * colorsPickList.length);
-    //get random color from colorsPickList
-    const color = colorsPickList[randomIndex];
-    //call function in order to add color
-    const box = buildBox(color);
+resetButton.addEventListener('click', resetGame);
 
-    colorsPickList.splice(randomIndex, 1);
-    boxContainer.appendChild(box);
+function resetGame() {
+    //clear games state
+    revealedCount = 0;
+    activeBox = null;
+    awaitingEndOfMove = false;
+
+    //delete all boxes
+    boxContainer.innerHTML = '';
+
+    gameInitializer();
+}
+
+
+function gameInitializer() {
+    // Build up boxes
+    colorsPickList = [...colors, ...colors]; //after reset create array once again, because (splice) used for previous array
+    for (let i = 0; i < boxCount; i++) {
+        //pick random color from colorsPickList
+        const randomIndex = Math.floor(Math.random() * colorsPickList.length);
+        //get random color from colorsPickList
+        const color = colorsPickList[randomIndex];
+        //call function in order to add color
+        const box = buildBox(color);
+
+        colorsPickList.splice(randomIndex, 1);
+        boxContainer.appendChild(box);
+    }
 }
     
 

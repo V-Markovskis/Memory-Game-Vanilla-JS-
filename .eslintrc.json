@@ -28,6 +28,8 @@
         "spaced-comment":"off",
         "no-plusplus":"off",
         "indent":"off",
-        "no-trailing-spaces":"off"
+        "no-trailing-spaces":"off",
+        "no-use-before-define": "off",
+        "max-len":"off"
     }
 }

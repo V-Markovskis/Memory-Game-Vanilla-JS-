@@ -1,3 +1,5 @@
+// @import url('./otherCSS/confetti.css');
+
 body {
   background-color: antiquewhite;
 }
@@ -23,7 +25,6 @@ body {
   padding: 20px;
 }
 
-
 .box {
   max-width: 300px;
   width: 200px;
@@ -31,4 +32,9 @@ body {
   height: 300px;
   border: 5px solid red;
   border-radius: 30px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
