@@ -1,6 +1,7 @@
 
 const boxContainer = document.querySelector('.box-container');
-const resetButton = document.querySelector('.reset');
+const buttonResetContainer = document.querySelector('.button-reset');
+// const resetButton = document.querySelector('.reset');
 const colors = ['aqua', 'crimson', 'blue'];
 let colorsPickList = [...colors, ...colors]; //combine array into a signle one
 const boxCount = colorsPickList.length;
@@ -9,7 +10,25 @@ const boxCount = colorsPickList.length;
 let revealedCount = 0; //user score (how many boxex opened)
 let activeBox: HTMLElement = null; //cliked box
 let awaitingEndOfMove = false; //if true that user awaits the two clicked boxes to be reversed
-gameInitializer();
+startGame();
+
+function startGame() {
+    const startElement = document.createElement('div');
+    const startContainer = document.querySelector('.start-container');
+    startElement.classList.add('start-button');
+    startElement.textContent = 'Start Game';
+
+    startElement.addEventListener('click', () => {
+        gameInitializer();
+        startContainer.remove();
+    });
+
+    if (startContainer) {
+        startContainer.appendChild(startElement);
+    } else {
+        console.error('Container not founnd');
+    }
+}
 
 //build new box and return it to for loop below
 function buildBox(color: string) {
@@ -55,7 +74,7 @@ function buildBox(color: string) {
             revealedCount += 2;
 
             if (revealedCount === boxCount) {
-                console.log('WIN! Refresh to play again.');
+                window.alert("You win! Press 'reset' to play again.");
             }
 
             return;
@@ -76,8 +95,6 @@ function buildBox(color: string) {
     return element;
 }
 
-resetButton.addEventListener('click', resetGame);
-
 function resetGame() {
     //clear games state
     revealedCount = 0;
@@ -86,6 +103,7 @@ function resetGame() {
 
     //delete all boxes
     boxContainer.innerHTML = '';
+    buttonResetContainer.innerHTML = '';
 
     gameInitializer();
 }
@@ -105,6 +123,18 @@ function gameInitializer() {
         colorsPickList.splice(randomIndex, 1);
         boxContainer.appendChild(box);
     }
+    
+    const resetButton = document.createElement('div');
+        resetButton.classList.add('reset');
+        resetButton.textContent = 'Reset';
+
+        if (buttonResetContainer) {
+            buttonResetContainer.appendChild(resetButton);
+        } else {
+            console.error('Button container not found');
+        }
+
+    resetButton.addEventListener('click', resetGame);
 }
     
 

@@ -13,7 +13,6 @@
       "es2019",
       "dom",
       "dom.iterable"
-    ],
-    "allowImportingTsExtensions": true
+    ]
   }
 }
